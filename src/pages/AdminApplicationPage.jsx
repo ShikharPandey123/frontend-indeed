@@ -18,7 +18,7 @@ export default function AdminDashboard() {
 
   const fetchApplications = async () => {
     try {
-      const response = await fetch("/api/applications");
+      const response = await fetch("http://localhost:4000/user/applications");
       const data = await response.json();
       setApplications(data);
     } catch (err) {
@@ -28,7 +28,7 @@ export default function AdminDashboard() {
 
   const handleDecision = async (id, decision) => {
     try {
-      await fetch(`/api/applications/${id}/status`, {
+      await fetch(`http://localhost:4000/user/view_appliction/${id}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
