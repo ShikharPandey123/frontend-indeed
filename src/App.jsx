@@ -5,7 +5,6 @@ import ProfilePage from "./pages/ProfilePage";
 import UploadResumePage from "./pages/ApplyPage";
 import AdminDashboard from "./pages/AdminApplicationPage";
 import PrivateAdminRoute from "./routes/PrivateAdminRoute";
-import ProtectedUserRoute from "./routes/ProtectedUserRoute";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import HomePage from "./pages/LandingPage";
 import React from "react";
@@ -17,14 +16,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/apply" element={<UploadResumePage />} />
-        <Route
-          path="/profile"
-          element={
-            <ProtectedUserRoute>
-              <ProfilePage />
-            </ProtectedUserRoute>
-          }
-        />
+        <Route path="/profile" element={<ProfilePage />} />
         <Route path="/Login" element={<LoginPage />} />
         <Route path="/SignUp" element={<SignupPage />} />
         <Route
