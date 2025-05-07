@@ -18,26 +18,54 @@ export default function AdminDashboard() {
 
   const fetchApplications = async () => {
     try {
-      const response = await fetch("/api/applications");
+      const token = localStorage.getItem("token");
+
+      const response = await fetch("http://localhost:4000/user/getApplicants", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.msg || "Failed to fetch applications");
+      }
+
       const data = await response.json();
       setApplications(data);
     } catch (err) {
-      console.error("Failed to fetch applications:", err);
+      console.error("Error fetching applications:", err.message);
     }
   };
 
   const handleDecision = async (id, decision) => {
+    const confirmation = window.confirm(
+      `Are you sure you want to ${decision} this application?`
+    );
+    if (!confirmation) return;
+
     try {
-      await fetch(`/api/applications/${id}/status`, {
-        method: "POST",
+      const token = localStorage.getItem("token");
+      const url = `http://localhost:4000/user/${decision}/${id}`;
+
+      const response = await fetch(url, {
+        method: "PATCH",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ status: decision }),
       });
-      fetchApplications();
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.msg || "Failed to update application status");
+      }
+
+      fetchApplications(); // Refresh list after updating status
+      alert(`Application ${decision}ed successfully!`);
     } catch (err) {
-      console.error("Error updating status:", err);
+      console.error("Error updating status:", err.message);
+      alert("Error updating application status.");
     }
   };
 
@@ -52,11 +80,12 @@ export default function AdminDashboard() {
           {applications.map((app) => (
             <Card key={app._id} className="border border-gray-200 shadow-sm rounded-xl">
               <CardContent className="p-6">
-                <h2 className="text-lg font-semibold">{app.name}</h2>
-                <p className="text-sm text-gray-600">{app.email}</p>
-                <p className="text-sm mt-1">Role: {app.jobRole}</p>
+                <h2 className="text-lg font-semibold mt-1">Company: {app.company}</h2>
+                <p className="text-md ">Name: {app.userId?.name || "unknown"}</p>
+                <p className="text-md ">Eamil: {app.userId?.email || "unknown"}</p>
+                <p className="text-md mt-1">Phone no: {app.PhoneNo}</p>
                 <a
-                  href={app.resumeUrl}
+                  href={app.resume}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-blue-600 text-sm mt-2 block"
@@ -67,12 +96,14 @@ export default function AdminDashboard() {
                   <Button
                     onClick={() => handleDecision(app._id, "accepted")}
                     className="bg-green-500 text-white hover:bg-green-600"
+                    disabled={app.status === "accepted"}
                   >
                     Accept
                   </Button>
                   <Button
                     onClick={() => handleDecision(app._id, "rejected")}
                     className="bg-red-500 text-white hover:bg-red-600"
+                    disabled={app.status === "rejected"}
                   >
                     Reject
                   </Button>
