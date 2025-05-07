@@ -38,7 +38,7 @@ export default function LoginPage() {
         if (data.user.role === "admin") {
           navigate("/admin-dashboard");
         } else {
-          navigate("/apply"); // Make sure this is the correct route
+          navigate("/"); 
         }
       } else {
         alert(data.msg || "Invalid credentials");
@@ -107,3 +107,4 @@ export default function LoginPage() {
     </div>
   );
 }
+  
