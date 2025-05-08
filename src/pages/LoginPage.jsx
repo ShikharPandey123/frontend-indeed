@@ -42,11 +42,21 @@ export default function LoginPage() {
           navigate("/"); // Make sure this is the correct route
         }
       } else {
-        toast.error(data.msg || "Invalid credentials");
+        toast.error(data.msg || "Invalid credentials",
+          {
+            toastId: "login-error",
+          }
+        );
       }
     } catch (error) {
       console.error("Login error:", error);
-      toast.error("Something went wrong.");
+      toast.error(
+        "Please fill in all fields and ensure password is at least 8 characters.",
+        {
+          toastId: "Login-validation-error",
+        }
+      );
+      
     }
   };
 

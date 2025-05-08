@@ -80,18 +80,30 @@ export default function UploadResumePage() {
       });
 
       if (response.ok) {
-        toast.success("Resume uploaded successfully!");
+        toast.success("Resume uploaded successfully!",
+          {
+            toastId: "upload-success",
+          }
+        );
         localStorage.removeItem("selectedJob"); // 
       } 
       
       else {
         const result = await response.json();
-        toast.error(result.error || "Upload failed. Please try again.");
+        toast.error(result.error || "Upload failed. Please try again.",
+          {
+            toastId: "upload-error",
+          }
+        );
       }
       
     } catch (err) {
       console.error(err);
-      toast.error("An error occurred. Please try again.");
+      toast.error("An error occurred. Please try again.",
+        {
+          toastId: "upload-error",
+        }
+      );
     }
   };
 

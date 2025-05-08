@@ -16,7 +16,13 @@ export default function SignupPage() {
     e.preventDefault();
 
     if (!name || !email || !password || password.length < 8) {
-      toast.error("Please fill in all fields and ensure password is at least 8 characters.");
+      toast.error(
+        "Please fill in all fields and ensure password is at least 8 characters.",
+        {
+          toastId: "signup-validation-error",
+        }
+      );
+      
       return;
     }
 
