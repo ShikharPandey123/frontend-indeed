@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
+import { toast } from "react-toastify";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -41,11 +42,11 @@ export default function LoginPage() {
           navigate("/apply"); // Make sure this is the correct route
         }
       } else {
-        alert(data.msg || "Invalid credentials");
+        toast.error(data.msg || "Invalid credentials");
       }
     } catch (error) {
       console.error("Login error:", error);
-      alert("Something went wrong.");
+      toast.error("Something went wrong.");
     }
   };
 

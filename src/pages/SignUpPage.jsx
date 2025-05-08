@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { toast } from 'react-toastify';
 
 export default function SignupPage() {
   const [email, setEmail] = useState("");
@@ -15,7 +16,7 @@ export default function SignupPage() {
     e.preventDefault();
 
     if (!name || !email || !password || password.length < 8) {
-      alert("Please fill in all fields and ensure password is at least 8 characters.");
+      toast.error("Please fill in all fields and ensure password is at least 8 characters.");
       return;
     }
 
@@ -51,7 +52,7 @@ export default function SignupPage() {
         navigate("/");
       }
     } catch (error) {
-      alert("Something went wrong during signup. Please try again.");
+      toast.error("Something went wrong during signup. Please try again.");
       console.error("Signup Error:", error);
     }
   };

@@ -11,6 +11,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Card, CardContent } from "@/components/ui/card";
+import { toast } from "react-toastify";
 
 export default function UploadResumePage() {
   const [formData, setFormData] = useState({
@@ -79,18 +80,18 @@ export default function UploadResumePage() {
       });
 
       if (response.ok) {
-        alert("Resume uploaded successfully!");
+        toast.success("Resume uploaded successfully!");
         localStorage.removeItem("selectedJob"); // 
       } 
       
       else {
         const result = await response.json();
-        alert(result.error || "Upload failed. Please try again.");
+        toast.error(result.error || "Upload failed. Please try again.");
       }
       
     } catch (err) {
       console.error(err);
-      alert("An error occurred. Please try again.");
+      toast.error("An error occurred. Please try again.");
     }
   };
 
