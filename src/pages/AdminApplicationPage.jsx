@@ -18,7 +18,7 @@ export default function AdminDashboard() {
 
   const fetchApplications = async () => {
     try {
-      const response = await fetch("http://localhost:4000/user/applications");
+      const response = await fetch("http://localhost:4000/user/getApplicants");
       const data = await response.json();
       setApplications(data);
     } catch (err) {
