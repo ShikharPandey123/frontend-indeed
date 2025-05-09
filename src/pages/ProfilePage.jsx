@@ -10,7 +10,7 @@ export default function ProfilePage() {
       if (!token) return;
 
       try {
-        const response = await fetch("http://localhost:4000/user/profile", {
+        const response = await fetch("http://localhost:3000/user/profile", {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,

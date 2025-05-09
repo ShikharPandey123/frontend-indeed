@@ -12,9 +12,15 @@ export default function LoginPage() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    if (!email || !password) {
+      toast.error("Please fill in all fields.", {
+        toastId: "login-validation-error",
+      });
+      return;
+    }
 
     try {
-      const response = await fetch("http://localhost:4000/user/login", {
+      const response = await fetch("http://localhost:3000/user/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -42,6 +48,7 @@ export default function LoginPage() {
           navigate("/"); // Make sure this is the correct route
         }
       } else {
+        console.log("Login failed:", data.msg);
         toast.error(data.msg || "Invalid credentials",
           {
             toastId: "login-error",
@@ -49,7 +56,7 @@ export default function LoginPage() {
         );
       }
     } catch (error) {
-      console.error("Login error:", error);
+      console.log("Login error:", error);
       toast.error(
         "Please fill in all fields and ensure password is at least 8 characters.",
         {
